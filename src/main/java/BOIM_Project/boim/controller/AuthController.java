@@ -2,6 +2,7 @@ package BOIM_Project.boim.controller;
 
 import BOIM_Project.boim.dto.TokenDto;
 import BOIM_Project.boim.dto.request.LoginRequest;
+import BOIM_Project.boim.dto.request.RefreshTokenRequest;
 import BOIM_Project.boim.dto.request.SignUpRequest;
 import BOIM_Project.boim.service.AuthService;
 import org.antlr.v4.runtime.Token;
@@ -34,4 +35,9 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(tokenDto);
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenDto> refresh(@RequestBody RefreshTokenRequest request) {
+        TokenDto tokenDto = authService.refresh(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tokenDto);
+    }
 }
