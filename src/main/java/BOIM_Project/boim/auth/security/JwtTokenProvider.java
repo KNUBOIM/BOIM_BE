@@ -1,5 +1,6 @@
 package BOIM_Project.boim.auth.security;
 
+import BOIM_Project.boim.status.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -31,21 +32,21 @@ public class JwtTokenProvider {
         key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public String createAccessToken(String email, String role) {
+    public String createAccessToken(String userAccount, Role userRole) {
         Date now = new Date();
         return Jwts.builder()
-            .setSubject(email)
-            .claim("role", role)
+            .setSubject(userAccount)
+            .claim("role", userRole)
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + accessExpMs))
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
     }
 
-    public String createRefreshToken(String email) {
+    public String createRefreshToken(String userAccount) {
         Date now = new Date();
         return Jwts.builder()
-            .setSubject(email)
+            .setSubject(userAccount)
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + refreshExpMs))
             .signWith(key, SignatureAlgorithm.HS256)

@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -40,4 +41,25 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
     private Role userRole;
+
+    protected User(){
+    }
+
+    @Builder
+    public User(String userAccount, String userPassword, String userName, Role userRole){
+        this.userAccount = userAccount;
+        this.userPassword = userPassword;
+        this.userName = userName;
+        this.userRole = userRole;
+    }
+
+    public static User create(String userAccount, String userPassword, String userName, Role userRole) {
+
+        return User.builder()
+            .userAccount(userAccount)
+            .userPassword(userPassword)
+            .userName(userName)
+            .userRole(userRole)
+            .build();
+    }
 }
